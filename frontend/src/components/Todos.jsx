@@ -9,11 +9,11 @@ export default function Todos() {
       {todos && todos.length > 0 ? (
         <div className="todos">
           {todos?.map((todo) => (
-            <Todo key={todo?._id} todo={todo} />
+            <Todo key={todo?.id} todo={todo} />
           ))}
         </div>
       ) : (
-        <p style={{ fontSize: "32px", textAlign: "center", marginTop: "50px" }}>
+        <p style={{ fontSize: "5rem", textAlign: "center", marginTop: "50px" }}>
           Set Some Goals and Work on them !! 💪
         </p>
       )}

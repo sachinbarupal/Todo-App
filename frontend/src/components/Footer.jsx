@@ -1,10 +1,10 @@
 const Footer = () => {
   return (
-    <footer className="footer">
+    <div className="footer">
       <p>
         Made with <span className="heart">❤️</span> by Sachin
       </p>
-    </footer>
+    </div>
   );
 };
 
