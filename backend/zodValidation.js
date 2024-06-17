@@ -6,7 +6,9 @@ const todoZodSchema = zod.object({
 });
 
 const updateTodoZodSchema = zod.object({
-  _id: zod.string(),
+  _id: zod.string().refine((value) => /^[0-9a-fA-F]{24}$/.test(value), {
+    message: "Invalid ObjectId format",
+  }),
 });
 
 const userZodSchema = zod.object({

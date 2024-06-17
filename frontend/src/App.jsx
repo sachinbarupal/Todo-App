@@ -1,15 +1,17 @@
-import { useState } from "react";
-import "./App.css";
+import { TodoProvider } from "./context/TodoContext";
+import { Toaster } from "react-hot-toast";
+import Home from "./pages/Home";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div>
-      <button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
-      </button>
-    </div>
+    <TodoProvider>
+      <Toaster />
+      <Header />
+      <Home />
+      <Footer />
+    </TodoProvider>
   );
 }
 

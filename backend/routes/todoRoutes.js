@@ -57,7 +57,7 @@ router.put("/mark/:_id", async (req, res) => {
 
     if (!validate.success) return res.status(403).json({ msg: "Wrong Inputs" });
 
-    const todo = await Todo.findById(_id);
+    const todo = await Todo.findOne({ _id });
 
     if (!todo) return res.status(403).json({ msg: "Todo Not Found" });
 

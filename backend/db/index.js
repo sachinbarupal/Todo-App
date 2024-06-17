@@ -24,18 +24,21 @@ const userSchema = mongoose.Schema({
   ],
 });
 
-const todoSchema = mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+const todoSchema = mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    userID: mongoose.Schema.Types.ObjectId,
+    description: String,
+    completed: {
+      type: Boolean,
+      default: false,
+    },
   },
-  userID: mongoose.Schema.Types.ObjectId,
-  description: String,
-  completed: {
-    type: Boolean,
-    default: false,
-  },
-});
+  { timestamps: true }
+);
 
 const User = mongoose.model("User", userSchema);
 const Todo = mongoose.model("Todo", todoSchema);
