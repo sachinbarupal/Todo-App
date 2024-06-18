@@ -1,6 +1,5 @@
 import { useTodos } from "../context/TodoContext";
-
-import "../index.css";
+import toast from "react-hot-toast";
 import { useRef } from "react";
 
 export function CreateTodo() {
@@ -8,8 +7,12 @@ export function CreateTodo() {
   const description = useRef();
   const { addTodo } = useTodos();
   const createTodo = async () => {
-    if (title.current.value.trim().length === 0)
-      return alert("Add Title Atleast !!");
+    if (title.current.value.trim().length === 0) {
+      return toast.error("Add Title Atleast !!", {
+        duration: 1000,
+        position: "bottom-center",
+      });
+    }
 
     addTodo({
       id: Date.now(),
@@ -24,20 +27,12 @@ export function CreateTodo() {
 
   return (
     <div className="form">
-      <input
-        ref={title}
-        style={{ padding: "10px", margin: "10px" }}
-        type="text"
-        placeholder="Title"
-      />
-      <input
-        ref={description}
-        style={{ padding: "10px", margin: "10px" }}
-        type="text"
-        placeholder="Description"
-      />
+      <input ref={title} type="text" placeholder="Title" />
+      <input ref={description} type="text" placeholder="Description" />
 
-      <button onClick={createTodo}>Add a Todo</button>
+      <button className="pointer" onClick={createTodo}>
+        Add a Todo
+      </button>
     </div>
   );
 }

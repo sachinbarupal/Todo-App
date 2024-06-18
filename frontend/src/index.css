@@ -6,15 +6,18 @@
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
+a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
 html,
 body {
   background-color: #0d0d0d;
+  cursor: url("/cursor.png"), auto;
   color: #fff;
   width: 100vw;
-}
-
-button {
-  cursor: pointer;
 }
 
 .header {
@@ -27,8 +30,6 @@ button {
   top: 0;
   background-color: #0d0d0d;
   border-bottom: 1px solid white;
-
-  /* margin-left: 50px; */
   width: 100%;
   font-size: 32px;
   position: sticky;
@@ -83,7 +84,6 @@ button {
   align-items: center;
   height: 70px;
   width: 50%;
-  /* max-width: 50%; */
   min-width: 300px;
   border: 1px solid #c2b39a;
   font-size: 16px;
@@ -125,14 +125,16 @@ button {
 
 .form input {
   background-color: #1f2937;
-  color: #fff;
+  color: yellowgreen;
   width: 50%;
   height: 50px;
   outline: none;
+  font-size: 16px;
   border: none;
   border-radius: 11px;
   min-width: 300px;
   padding: 12px;
+  margin: 10px;
 }
 .form button {
   width: 10%;
@@ -154,7 +156,6 @@ button {
 }
 
 .footer {
-  /* background-color: #282c34; */
   color: white;
   text-align: end;
   padding: 1rem;
@@ -199,24 +200,74 @@ button {
   }
 }
 
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
 .iconQuote {
   margin-right: 10px;
   transform: translatey(0px);
   font-size: 32px;
-  cursor: pointer;
-  /* background-color: brown; */
-  /* border-radius: 50%; */
+  cursor: url("/click.png"), pointer;
   animation: float 6s ease-in-out infinite;
 }
 .iconQuoteRotate {
   margin-right: 10px;
   transform: translatey(0px);
   font-size: 32px;
-  cursor: pointer;
-  /* background-color: brown; */
-  /* border-radius: 50%; */
+  cursor: url("/click.png"), pointer;
   animation: floatR 6s ease-in-out infinite;
 }
 .flip {
   transform: rotate(180deg);
+}
+
+.pointer {
+  cursor: url("/up-sign.png"), pointer;
+}
+.pointer:focus {
+  outline: none;
+}
+
+.doneTick {
+  font-size: 34px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.todoTitle {
+  text-align: start;
+  font-size: 24px;
+}
+
+.editTodo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 50%;
+  min-width: 300px;
+  border: 1px solid #c2b39a;
+  font-size: 16px;
+  background-color: #0d0d0d;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.editTodoTitle {
+  font-size: 24px;
+}
+.editTodoTitle {
+  font-size: 18px;
+}
+.editTodoInput {
+  background-color: #0d0d0d;
+  padding-left: 5px;
+  color: #fff;
+  border: none;
+  border-bottom: 1px solid white;
+}
+.editTodoInput:focus {
+  outline: none;
 }

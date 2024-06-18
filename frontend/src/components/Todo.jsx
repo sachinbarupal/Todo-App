@@ -6,8 +6,22 @@ import {
 } from "@mui/icons-material";
 import { useTodos } from "../context/TodoContext";
 import toast from "react-hot-toast";
+import { useEffect, useRef, useState } from "react";
 export function Todo({ todo }) {
-  const { deleteTodo, totalTodos, completedTodos, toggleTodo } = useTodos();
+  const { deleteTodo, totalTodos, editTodo, completedTodos, toggleTodo } =
+    useTodos();
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(todo.title);
+  const titleRef = useRef(null);
+  const [description, setDescription] = useState(todo.description);
+  const wrapperRef = useRef(null);
+  const handleClickOutside = (event) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setIsEditing(false);
+      editTodo({ ...todo, title, description });
+    }
+  };
+
   const handleComplete = () => {
     if (!todo.completed && completedTodos + 1 === totalTodos) {
       toast.success(
@@ -31,13 +45,44 @@ export function Todo({ todo }) {
     toggleTodo(todo);
   };
 
-  const handleDelete = () => {
-    deleteTodo(todo);
-  };
+  useEffect(() => {
+    if (isEditing && titleRef.current) {
+      titleRef.current.focus();
+    }
+  }, [isEditing]);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
+
+  if (isEditing)
+    return (
+      <div className="editTodo" ref={wrapperRef}>
+        <input
+          ref={titleRef}
+          type="text"
+          className="editTodoInput"
+          style={{ fontSize: "24px" }}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          className="editTodoInput"
+          style={{ fontSize: "18px" }}
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
+    );
 
   return (
     <div className="todo">
-      <div onClick={handleComplete} className="todoLeft">
+      <div onClick={handleComplete} className="todoLeft pointer">
         <div style={{ position: "relative" }}>
           <Circle
             fontSize="large"
@@ -56,11 +101,8 @@ export function Todo({ todo }) {
         </div>
         <div className="todoInfo">
           <p
-            style={{
-              textAlign: "start",
-              textDecoration: todo.completed ? "line-through" : "none",
-              fontSize: "24px",
-            }}
+            className="todoTitle"
+            style={{ textDecoration: todo.completed ? "line-through" : "none" }}
           >
             {todo.title}
           </p>
@@ -78,10 +120,10 @@ export function Todo({ todo }) {
       </div>
 
       <div className="todoRight">
-        <button style={{ cursor: "pointer" }}>
+        <button className="pointer" onClick={() => setIsEditing(true)}>
           <EditNoteOutlined fontSize="large" />
         </button>
-        <button style={{ cursor: "pointer" }} onClick={handleDelete}>
+        <button className="pointer" onClick={() => deleteTodo(todo)}>
           <DeleteOutline sx={{ fontSize: "32px" }} />
         </button>
       </div>

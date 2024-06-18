@@ -1,24 +1,36 @@
 import { CheckBox } from "@mui/icons-material";
 import { FormatQuoteOutlined } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 function Header() {
-  if (!localStorage.getItem("quote"))
-    localStorage.setItem("quote", "No Pain !! No Gain 💯");
-  const localQuote = localStorage.getItem("quote");
-  const [quote, setQuote] = useState(localQuote);
+  const [quote, setQuote] = useState("No Pain !! No Gain 💯");
   const isLaptop = useMediaQuery("(min-width:1024px)");
 
   const fetchQuote = async () => {
-    const res = await fetch("https://api.quotable.io/random");
-    const data = await res.json();
-    if (data.content?.length > 70) fetchQuote();
+    const response = await fetch("https://api.quotable.io/random");
+    const data = await response.json();
+
+    if (data.content?.length > 70) return;
     else if (data.content) {
       setQuote(data.content);
       localStorage.setItem("quote", data.content);
     }
   };
-  setInterval(fetchQuote, 100000);
+
+  useEffect(() => {
+    const storedQuote = localStorage.getItem("quote");
+    if (storedQuote) {
+      setQuote(storedQuote);
+    } else {
+      fetchQuote();
+    }
+
+    const intervalId = setInterval(() => {
+      fetchQuote();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="header">
@@ -34,8 +46,9 @@ function Header() {
         </div>
       )}
       {isLaptop && (
-        <div style={{ flex: 1, textAlign: "center" }}>
+        <div className="float" style={{ flex: 1, textAlign: "center" }}>
           <span
+            className="float"
             style={{
               fontFamily: "Playwrite FR Moderne, sans-serif",
               fontSize: "2rem",

@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useReducer, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  act,
+} from "react";
 
 const TodoContext = createContext();
 
@@ -11,13 +17,14 @@ const initialState = {
 const ADD_TODO = "ADD_TODO";
 const DELETE_TODO = "DELETE_TODO";
 const TOGGLE_TODO = "TOGGLE_TODO";
+const EDIT_TODO = "EDIT_TODO";
 
 const todoReducer = (state, action) => {
   switch (action.type) {
     case ADD_TODO:
       return {
         ...state,
-        todos: [...state.todos, action.payload],
+        todos: [action.payload, ...state.todos],
         totalTodos: state.totalTodos + 1,
       };
     case DELETE_TODO:
@@ -45,6 +52,13 @@ const todoReducer = (state, action) => {
           state.completedTodos + (action.payload.completed ? -1 : 1),
       };
     }
+    case EDIT_TODO:
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          todo.id === action.payload.id ? action.payload : todo
+        ),
+      };
     default:
       return state;
   }
@@ -87,8 +101,14 @@ export const TodoProvider = ({ children }) => {
     dispatch({ type: TOGGLE_TODO, payload: todo });
   };
 
+  const editTodo = (todo) => {
+    dispatch({ type: EDIT_TODO, payload: todo });
+  };
+
   return (
-    <TodoContext.Provider value={{ ...state, addTodo, deleteTodo, toggleTodo }}>
+    <TodoContext.Provider
+      value={{ ...state, addTodo, deleteTodo, toggleTodo, editTodo }}
+    >
       {children}
     </TodoContext.Provider>
   );
